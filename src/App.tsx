@@ -1,17 +1,30 @@
-import React from 'react';
 import { ReactComponent as MoreIcon } from './assets/icons/more.svg';
+import AppHeading from './components/AppHeading';
+import AppForm, { FormModelType } from './components/AppForm';
+import AppButton from './components/AppButton';
+import AppFormField from './components/AppFormField';
+
+const createUser = (form: FormModelType) => {
+  console.log(form);
+}
+const formRules = {
+  name: 'required',
+  surname: 'required',
+}
 
 function App() {
+
   return (
     <main className="bg-[#F2F2F7] text-[#0E3263] min-h-screen pt-[50px]">
       <div className="flex items-start max-w-[1720px] mx-auto">
         <div className="w-[calc(100%_/_3_-_18px)]">
-          <p className="mb-9 text-[28px] font-bold leading-[28px]">Регистрация</p>
-          <div className="bg-white rounded-lg p-9">
-            <p className="mb-2 text-xs leading-[22px] font-medium">Имя</p>
-            <input className="py-[15px] px-[19px] border border-[#DCE3EB] rounded-[14px] bg-white text-normal font-medium h-[57px] w-full placeholder:text-[#91A1B9]" placeholder="Введите имя"/>
-            <button className="py-5 rounded-xl bg-[#267FFF] border-0 w-full text-[18px] font-bold text-white">Добавить</button>
-          </div>
+          <AppHeading>Регистрация</AppHeading>
+          <AppForm className="bg-white rounded-lg p-9" rules={formRules} onSubmit={createUser}>
+            <AppFormField type="input" label="Имя" placeholder="Введите имя" name="name"/>
+            <AppFormField type="input" label="Фамилия" placeholder="Введите фамилию" name="surname"/>
+            <AppFormField type="input" label="Описание" placeholder="Краткое описание" name="description"/>
+            <AppButton type="submit">Добавить</AppButton>
+          </AppForm>
         </div>
         <div className="ml-9 flex-grow">
           <p className="mb-9 text-[28px] font-bold leading-[28px]">Зарегистрированные пользователи</p>
