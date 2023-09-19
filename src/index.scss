@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Montserrat";
+    src: url("./assets/fonts/Montserrat/MontserratVariableFont.ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    font-weight: 500;
+    src: url("./assets/fonts/Roboto/Roboto-Medium.ttf");
+}
+$comp: 'path', 'rect', 'circle';
+@layer components {
+    @each $i in $comp {
+        .svg-icon #{$i}:not([stroke]):not([fill="none"]),
+        .svg-icon #{$i}[fill]:not([fill="none"]) {
+            @apply fill-current;
+        }
+        .svg-icon #{$i}[stroke]:not([stroke="none"]) {
+            @apply stroke-current;
+        }
+    }
+}
+
+html, body, #root {
+    height: 100%;
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+    outline: none;
+}
