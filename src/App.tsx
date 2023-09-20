@@ -1,50 +1,43 @@
-import AppHeading from './components/AppHeading';
-import RegisterForm from './components/partials/RegisterForm';
-import useUsersStore, { UsersContext } from './store/users.store';
-import UsersTable from './components/partials/UsersTable';
-import {useEffect, useState} from 'react';
-import EditModal from './components/partials/EditModal';
-import DeleteModal from './components/partials/DeleteModal';
-import UsersCards from './components/partials/UserCards';
-
-const MOBILE_BOUNDARY = 1280;
+import AppHeading from "./components/AppHeading";
+import RegisterForm from "./components/partials/RegisterForm";
+import useUsersStore, { UsersContext } from "./store/users.store";
+import UsersTable from "./components/partials/UsersTable";
+import { useState } from "react";
+import EditModal from "./components/partials/EditModal";
+import DeleteModal from "./components/partials/DeleteModal";
+import UsersCards from "./components/partials/UserCards";
+import { useResponsive } from "./helpers/responsive";
 
 function App() {
   const usersStore = useUsersStore();
-  const [isTable, setIsTable] = useState(window.innerWidth > MOBILE_BOUNDARY);
-  const [editUser, setEditUser] = useState<number|null>(null);
-  const [action, setAction] = useState<string>('');
+  const isTablet = useResponsive();
 
-  const onCloseModal = () => {
-    setEditUser(null);
-  }
   const onAction = (action: string, user: number) => {
     setAction(action);
     setEditUser(user);
-  }
+  };
 
   let modalSection = null;
-  if(editUser) {
+  // editUser и action нужны для модалок редактирования и удаления пользователя. Должны быть связаны между собой
+  const [editUser, setEditUser] = useState<number | null>(null);
+  const [action, setAction] = useState<string>("");
+  if (editUser) {
     const modalProps = {
       user: editUser,
-      onClose: onCloseModal
-    }
-    modalSection = action === 'edit' ? <EditModal {...modalProps}/> : <DeleteModal {...modalProps}/>;
+      onClose() {
+        setEditUser(null);
+      },
+    };
+    modalSection =
+      action === "edit" ? (
+        <EditModal {...modalProps} />
+      ) : (
+        <DeleteModal {...modalProps} />
+      );
   }
 
-  useEffect(() => {
-    const resize = () => {
-      if(!isTable && window.innerWidth > MOBILE_BOUNDARY) {
-        setIsTable(true);
-      } else if(isTable && window.innerWidth <= MOBILE_BOUNDARY) {
-        setIsTable(false);
-      }
-    }
-    window.addEventListener('resize', resize);
-    return () => {
-      window.removeEventListener('resize', resize);
-    }
-  });
+  // В мобилке показываем карточки, в десктопе таблицу
+  const UsersComponent = isTablet ? UsersTable : UsersCards;
 
   return (
     <UsersContext.Provider value={usersStore}>
@@ -53,20 +46,18 @@ function App() {
           <div className="flex items-start max-w-[1720px] mx-auto flex-wrap xl:flex-nowrap">
             <div className="mb-9 w-full xl:min-w-[380px] xl:w-[calc(100%_/_3_-_18px)] xl:mb-0 md:w-[600px]">
               <AppHeading>Регистрация</AppHeading>
-              <RegisterForm className="bg-white rounded-lg p-5 md:p-9"/>
+              <RegisterForm className="bg-white rounded-lg p-5 md:p-9" />
             </div>
             <div className="w-full xl:w-0 xl:flex-grow xl:ml-9">
               <AppHeading>Зарегистрированные пользователи</AppHeading>
-              {
-                isTable ? <UsersTable onAction={onAction}/> : <UsersCards onAction={onAction}/>
-              }
+              <UsersComponent onAction={onAction} />
             </div>
           </div>
         </main>
-        { modalSection }
+        {modalSection}
       </div>
     </UsersContext.Provider>
-  )
+  );
 }
 
 export default App;
