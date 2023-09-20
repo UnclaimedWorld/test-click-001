@@ -55,7 +55,7 @@ export default function RegisterForm(props: RegisterFormType) {
 
     return (
         <AppForm className={props.className} initialForm={initialForm} rules={formRules} onSubmit={onSubmit}>
-            <AppFormField type="input" label="Имя" placeholder="Введите имя" name="name"/>
+            <AppFormField autofocus type="input" label="Имя" placeholder="Введите имя" name="name"/>
             <AppFormField type="input" label="Фамилия" placeholder="Введите фамилию" name="surname"/>
             <AppFormField type="input" label="Описание" placeholder="Краткое описание" name="description"/>
             <AppButton type="submit">{ buttonName }</AppButton>

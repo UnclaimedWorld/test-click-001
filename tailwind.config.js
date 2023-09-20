@@ -17,7 +17,8 @@ export default {
       },
       animation: {
         drop: 'littleMove 250ms ease-out, opacity 250ms ease-out',
-        dropOut: 'littleMoveReverse 250ms ease-out forwards, opacityReverse 250ms ease-out forwards'
+        dropOut: 'littleMoveReverse 250ms ease-out forwards, opacityReverse 250ms ease-out forwards',
+        opacity: 'opacity 250ms ease-out'
       },
       keyframes: {
         littleMove: {
