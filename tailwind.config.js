@@ -21,6 +21,9 @@ export default {
         opacity: 'opacity 250ms ease-out',
         opacityOut: 'opacityReverse 250ms ease-out forwards'
       },
+      transitionDuration: {
+        DEFAULT: '250ms'
+      },
       keyframes: {
         littleMove: {
           '0%': { transform: 'translateY(-32px)' },

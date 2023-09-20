@@ -17,7 +17,6 @@ function App() {
     setEditUser(user);
   };
 
-  let modalSection = null;
   // editUser и action нужны для модалок редактирования и удаления пользователя. Должны быть связаны между собой
   const [editUser, setEditUser] = useState<number | null>(null);
   const [action, setAction] = useState<string>("");

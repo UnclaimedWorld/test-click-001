@@ -8,7 +8,7 @@ interface ToggleButtonType extends BaseComponentType {
 export default function ToggleButton(props: ToggleButtonType) {
   let className =
     props.className +
-    " w-11 h-11 mx-auto rounded-xl border-2  text-[#91A1B9] p-0 flex items-center justify-center ";
+    " w-11 h-11 mx-auto rounded-xl border-2  text-[#91A1B9] p-0 flex items-center justify-center active:scale-95 transition-transform ";
   if (props.toggled) {
     className += "bg-[#E3EBF4] border-[#E3EBF4]";
   } else {
