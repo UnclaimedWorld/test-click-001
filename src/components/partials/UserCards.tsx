@@ -52,7 +52,7 @@ export default function UsersCards(props: UsersTableType) {
                     };
 
                     return (
-                        <div className="flex-grow ml-6 mt-6 p-8 rounded-xl bg-white relative min-w-[200px] min-[420px]:min-w-[380px] max-w-full" key={user.id}>
+                        <div className="flex-grow ml-6 mt-6 p-5 md:p-9 rounded-xl bg-white relative min-w-[200px] min-[420px]:min-w-[380px] max-w-full" key={user.id}>
                             <ToggleMenu className="absolute top-3 right-3" opened={opened == user.id} setOpened={toggleOpened} onAction={onAction}/>
                             {
                                 fields.map(field => {
