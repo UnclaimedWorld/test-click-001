@@ -31,7 +31,7 @@ export default function AppForm(props: AppFormType) {
         setForm(f => ({...f, [name]: value}));
     }
 
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if(props.rules) {
@@ -45,7 +45,7 @@ export default function AppForm(props: AppFormType) {
             });
     
             if(!isPrevented) {
-                props.onSubmit(form);
+                await props.onSubmit(form);
                 setForm({});
             }
         } else {

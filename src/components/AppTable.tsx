@@ -1,6 +1,6 @@
 import BaseComponentType from "../types/components";
 import { ReactComponent as MoreIcon } from '../assets/icons/more.svg';
-import { useState, useRef, forwardRef } from "react";
+import { useState, forwardRef } from "react";
 import useClickOutsideRef from "../helpers/clickOutside";
 
 interface TableHeadType {
