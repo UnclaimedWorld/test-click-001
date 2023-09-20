@@ -7,7 +7,7 @@ interface AppButtonType extends BaseComponentType {
 
 export default function AppButton(props: AppButtonType) {
   let className =
-    "py-5 rounded-xl border-0 w-full text-[18px] font-bold text-white focus:ring select-none active:scale-95 transition-transform ";
+    "py-5 rounded-xl border-0 w-full text-[18px] font-bold text-white focus:ring select-none active:scale-95 motion-safe:transition-transform ";
   if (props.theme) {
     className += "bg-[#FD033F]";
   } else {

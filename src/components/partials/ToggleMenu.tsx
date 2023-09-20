@@ -93,7 +93,7 @@ export default function ToggleMenu(props: ToggleMenuType) {
           <ActionsMenu
             className={
               "absolute top-full right-0 mt-2 w-[180px] z-[1] " +
-              (isMenuOut ? "animate-dropOut" : "animate-drop")
+              (isMenuOut ? "motion-safe:animate-dropOut" : "motion-safe:animate-drop")
             }
             ref={ref}
             onAction={onAction}

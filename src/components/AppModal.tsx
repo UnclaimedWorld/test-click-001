@@ -17,11 +17,11 @@ function ModalLayout(props: AppModalType) {
     "flex flex-col bg-white shadow-[0px_5px_15px_rgba(145,_161,_185,_0.15)] m-auto relative w-full min-h-screen md:max-w-[562px] md:rounded-xl md:min-h-0 ";
 
   if (!props.visible) {
-    modalClassName += "animate-opacityOut ";
-    modalWindowClassName += "animate-dropOut ";
+    modalClassName += "motion-safe:animate-opacityOut ";
+    modalWindowClassName += "motion-safe:animate-dropOut ";
   } else {
-    modalClassName += "animate-opacity ";
-    modalWindowClassName += "animate-drop ";
+    modalClassName += "motion-safe:animate-opacity ";
+    modalWindowClassName += "motion-safe:animate-drop ";
   }
 
   useEffect(() => {
