@@ -12,7 +12,6 @@ interface DeleteModalType extends BaseComponentType {
   visible: boolean;
   onClose: () => void;
 }
-
 export default function DeleteModal(props: DeleteModalType) {
   const usersContext = useContext(UsersContext);
 
@@ -38,7 +37,7 @@ export default function DeleteModal(props: DeleteModalType) {
 
   return (
     <AppModal visible={props.visible} name="Редактировать" onCloseModal={props.onClose}>
-      <AppForm className="min-h-full flex flex-col" onSubmit={onSubmit}>
+      <AppForm className="flex-grow flex flex-col" onSubmit={onSubmit}>
         <p className="mb-6 leading-5 font-medium text-center">
           Вы действительно хотите безвозвратно удалить пользователя {name}?{" "}
           <br /> Восстановить его не получится

@@ -9,12 +9,6 @@ export interface TableHeadType {
   size?: TableHeadSizesType;
 }
 
-interface AppTableType extends BaseComponentType {
-  head: TableHeadType[];
-  data: Record<string, any>[];
-  onAction: (action: string, id: number) => void;
-}
-
 const tableHeadSizes = {
   large: "w-[400px]",
   medium: "w-[240px]",
@@ -42,6 +36,12 @@ const Cell = (props: { colSpan?: number } & BaseComponentType) => {
     </td>
   );
 };
+
+interface AppTableType extends BaseComponentType {
+  head: TableHeadType[];
+  data: Record<string, any>[];
+  onAction: (action: string, id: number) => void;
+}
 
 export default function AppTable(props: AppTableType) {
   const [openedMenu, setOpenedMenu] = useState("");

@@ -21,6 +21,7 @@ const fields: { name: string; key: "name" | "description" | "surname" }[] = [
 interface UsersTableType extends BaseComponentType {
   onAction: (action: string, id: number) => void;
 }
+
 export default function UsersCards(props: UsersTableType) {
   const usersContext = useContext(UsersContext);
   const users = [...(usersContext?.users || [])];

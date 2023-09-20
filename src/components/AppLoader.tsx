@@ -4,6 +4,7 @@ import AppIcon from "./AppIcon";
 interface AppLoaderType extends BaseComponentType {
   loading: boolean;
 }
+
 export default function AppLoader(props: AppLoaderType) {
   return (
     <div className={"relative " + props.className}>

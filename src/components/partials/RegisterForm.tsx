@@ -2,10 +2,11 @@ import api from "../../helpers/api";
 import { UsersContext } from "../../store/users.store";
 import BaseComponentType from "../../types/components";
 import AppButton from "../AppButton";
-import AppForm, { FormModelType } from "../AppForm";
+import AppForm from "../AppForm";
 import AppFormField from "../AppFormField";
 import { useContext } from "react";
 import useLoaderComponent from "../../helpers/useLoaderComponent";
+import { FormModelType } from "../../types/form";
 
 const formRules = {
   name: "required",
@@ -15,7 +16,6 @@ interface RegisterFormType extends BaseComponentType {
   user?: number|null;
   onSubmit?: () => void;
 }
-
 export default function RegisterForm(props: RegisterFormType) {
   const usersContext = useContext(UsersContext);
 
