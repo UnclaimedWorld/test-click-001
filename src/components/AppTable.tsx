@@ -1,8 +1,5 @@
 import BaseComponentType from "../types/components";
-import { ReactComponent as MoreIcon } from '../assets/icons/more.svg';
-import { useState, forwardRef } from "react";
-import useClickOutsideRef from "../helpers/clickOutside";
-import ToggleButton from "./ToggleButton";
+import { useState } from "react";
 import ToggleMenu from "./partials/ToggleMenu";
 
 type TableHeadSizesType = 'large' | 'medium' | 'small' | 'flex';
@@ -37,12 +34,8 @@ const Head = (props: { size?: TableHeadSizesType } & BaseComponentType) => {
         </th>
     );
 };
-const Cell = (props: {colSpan?: number, noOverflow?: boolean} & BaseComponentType) => {
-    // let className = "w-0 min-w-full text-ellipsis ";
-    let className = "w-0 min-w-full text-ellipsis break-words hyphens-auto";
-    if(!props.noOverflow) {
-        // className += "overflow-hidden";
-    }
+const Cell = (props: {colSpan?: number} & BaseComponentType) => {
+    const className = "w-0 min-w-full text-ellipsis break-words hyphens-auto";
     return (
         <td className="pt-[31px] pb-[29px] px-7 border-t border-[#E3EBF4] text-[#1C1C1E] align-baseline" colSpan={props.colSpan}>
             <div className={className}>{ props.children }</div>
@@ -77,7 +70,7 @@ export default function AppTable(props: AppTableType) {
                     return <Cell key={k.key}>{i[k.key] || '-'}</Cell>
                 })
             }
-            <Cell noOverflow>
+            <Cell>
                 <ToggleMenu opened={openedMenu === i.id} onAction={onAction} setOpened={setOpened}/>
             </Cell>
         </tr>

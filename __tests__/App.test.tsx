@@ -10,11 +10,16 @@ test('Тесты вообще работают?', () => {
   expect(element).not.toBeNull();
 });
 
-test('Приложение отрисовывается', () => {
-  render(<App/>);
-});
-
-test('В приложении нет пользователей', () => {
+test('В приложении нет пользователей', async () => {
   const app = render(<App/>);
-  app.findByText('Пока никого нет(');
+  expect(app.getByText('Пока никого нет(')).toBeTruthy();
+
+  let isError = false;
+  try {
+    // Не совсем пока разобрался, но падают тесты, если не найден элемент
+    app.getByText('Пока ник23ого нет(')
+  } catch(e) {
+    isError = true;
+  }
+  expect(isError).toBeTruthy();
 });

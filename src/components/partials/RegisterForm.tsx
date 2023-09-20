@@ -11,7 +11,7 @@ const formRules = {
     surname: 'required',
 };
 interface RegisterFormType extends BaseComponentType {
-    user?: Number
+    user?: number
     onSubmit?: () => void
 }
 
@@ -21,7 +21,7 @@ export default function RegisterForm(props: RegisterFormType) {
     let initialForm: FormModelType = {};
     if(props.user && usersContext) {
         const users = usersContext.users;
-        let user = users.find(user => user.id === props.user);
+        const user = users.find(user => user.id === props.user);
         if(user) {
             initialForm = { 
                 name: user.name,

@@ -1,8 +1,8 @@
 import useClickOutsideRef from "../../helpers/clickOutside";
 import BaseComponentType from "../../types/components";
 import ToggleButton from "../ToggleButton";
-import { ReactComponent as MoreIcon } from '../../assets/icons/more.svg';
 import { useState, forwardRef } from "react";
+import AppIcon from "../AppIcon";
 
 const actions = [
     {
@@ -14,8 +14,8 @@ const actions = [
         key: 'delete'
     }
 ]
-const ActionsMenu = forwardRef((props: {onAction: (action: string) => void } & BaseComponentType, ref) => {
-    return <ul className={props.className + ` p-1 rounded-xl bg-white shadow-[0px_5px_15px_rgba(145,_161,_185,_0.15)]`} ref={ref}>
+const ActionsMenu = forwardRef<HTMLUListElement, {onAction: (action: string) => void } & BaseComponentType>((props, ref) => {
+    return <ul ref={ref} className={props.className + ` p-1 rounded-xl bg-white shadow-[0px_5px_15px_rgba(145,_161,_185,_0.15)]`}>
         {
             actions.map(i => {
                 const clickHandler: React.MouseEventHandler = () => {
@@ -53,7 +53,7 @@ export default function ToggleMenu(props: ToggleMenuType) {
         }
     };
 
-    const ref = useClickOutsideRef(() => {
+    const ref = useClickOutsideRef<HTMLUListElement>(() => {
         closeMenu();
     });
 
@@ -70,7 +70,7 @@ export default function ToggleMenu(props: ToggleMenuType) {
         <div className={props.className}>
             <div className="relative">
                 <ToggleButton toggled={props.opened} onClick={onTogglerClick}>
-                    <MoreIcon className="svg-icon"/>
+                    <AppIcon icon="more"/>
                 </ToggleButton>
                 {
                     props.opened && <ActionsMenu className={"absolute top-full right-0 mt-2 w-[180px] z-[1] " + (isMenuOut ? 'animate-dropOut' : 'animate-drop')} ref={ref} onAction={onAction}/>

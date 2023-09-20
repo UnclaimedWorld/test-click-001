@@ -19,7 +19,7 @@ const imitator: Record<string, (data?: any) => { success: true, data: any }> = {
             }
         };
     },
-    'delete/api/delete/:id'(data: { id: number }) {
+    'delete/api/delete/:id'() {
         // Для целостности интерфейса
         return {
             success: true,
