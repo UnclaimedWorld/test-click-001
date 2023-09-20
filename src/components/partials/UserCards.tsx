@@ -42,8 +42,9 @@ export default function UsersCards(props: UsersTableType) {
                     const onAction = (action: string) => {
                         props.onAction(action, user.id);
                     };
-                    const toggleOpened = (opened: boolean) => {
-                        if(opened) {
+                    const toggleOpened = (isOpened: boolean) => {
+                        if(opened && user.id !== opened) return;
+                        if(isOpened) {
                             setOpened(user.id);
                         } else {
                             setOpened(null);
@@ -51,12 +52,12 @@ export default function UsersCards(props: UsersTableType) {
                     };
 
                     return (
-                        <div className="flex-grow ml-6 mt-6 p-8 rounded-xl bg-white relative min-w-[200px] min-[420px]:min-w-[380px] max-w-full">
+                        <div className="flex-grow ml-6 mt-6 p-8 rounded-xl bg-white relative min-w-[200px] min-[420px]:min-w-[380px] max-w-full" key={user.id}>
                             <ToggleMenu className="absolute top-3 right-3" opened={opened == user.id} setOpened={toggleOpened} onAction={onAction}/>
                             {
                                 fields.map(field => {
                                     return (
-                                        <div className="mb-8">
+                                        <div className="mb-8" key={field.key}>
                                             <p className="text-[15px] font-medium leading-5 mb-4">{ field.name }</p>
                                             <p className="text-[30px] font-bold leading-[1] mb-4">{ user[field.key] || '-' }</p>
                                         </div>

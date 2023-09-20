@@ -57,7 +57,7 @@ export default function ToggleMenu(props: ToggleMenuType) {
         closeMenu();
     });
 
-    const onTogglerClick: React.MouseEventHandler = (e) => {
+    const onTogglerClick: React.MouseEventHandler = () => {
         setTimeout(toggleMenu);
     };
 

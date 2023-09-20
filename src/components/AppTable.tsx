@@ -63,6 +63,7 @@ export default function AppTable(props: AppTableType) {
             props.onAction(action, i.id);
         };
         const setOpened = (isOpened: boolean) => {
+            if(openedMenu && i.id !== openedMenu) return;
             if(!isOpened && i.id === openedMenu) {
                 setOpenedMenu('');
             } else if(isOpened) {
