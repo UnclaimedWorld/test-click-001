@@ -14,7 +14,8 @@ export class UserDTO {
 }
 export interface UsersStore {
     users: Readonly<UserDTO[]>,
-    addUser(user: UserDTO): void
+    addUser(user: UserDTO): void,
+    editUser(user: UserDTO): void,
 }
 
 export const UsersContext = createContext<UsersStore | null>(null);
@@ -27,6 +28,21 @@ export default function useUsersStore(): UsersStore {
         users,
         addUser(user: any) {
             setUsers(users => [...users, new UserDTO(user)]);
+        },
+        editUser(user: any) {
+            if(!user.id) {
+                throw new Error('Поле id обязательно');
+            }
+            const idx = users.findIndex(u => u.id == user.id);
+            if(idx > -1) {
+                setUsers(users => {
+                    const u = [...users];
+                    u.splice(idx, 1, new UserDTO(user));
+                    return u;
+                });
+            } else {
+                throw new Error('Не удалось найти пользователя');
+            }
         }
     };
 }

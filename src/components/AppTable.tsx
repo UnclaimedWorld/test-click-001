@@ -10,6 +10,7 @@ interface TableHeadType {
 interface AppTableType extends BaseComponentType {
     head: TableHeadType[]
     data: Record<string, any>[]
+    onAction: (action: string, id: number) => void
 }
 
 const Head = (props: BaseComponentType) => {
@@ -29,10 +30,15 @@ const actions = [
         key: 'delete'
     }
 ]
-const ActionsMenu = forwardRef((props: BaseComponentType, ref) => {
+const ActionsMenu = forwardRef((props: {onAction: (action: string) => void } & BaseComponentType, ref) => {
     return <ul className={props.className + ` p-1 rounded-xl bg-white shadow-[0px_5px_15px_rgba(145,_161,_185,_0.15)]`} ref={ref}>
         {
-            actions.map(i => <li key={i.key} className="px-4 py-2 font-heading font-medium text-sm text-[#8294AF] rounded-xl hover:bg-[#F5F7F8] cursor-pointer">{ i.name }</li>)
+            actions.map(i => {
+                const clickHandler: React.MouseEventHandler = () => {
+                    props.onAction(i.key);
+                }
+                return <li key={i.key} className="px-4 py-2 font-heading font-medium text-sm text-[#8294AF] rounded-xl hover:bg-[#F5F7F8] cursor-pointer" onClick={clickHandler}>{ i.name }</li>
+            })
         }
     </ul>
 });
@@ -76,6 +82,11 @@ export default function AppTable(props: AppTableType) {
             className += "bg-white border-[#E5E5EA]";
         }
 
+        const onAction = (action: string) => {
+            props.onAction(action, i.id);
+            toggleMenu();
+        };
+
         return <tr>
             { 
                 props.head.map((k: TableHeadType) => {
@@ -88,7 +99,8 @@ export default function AppTable(props: AppTableType) {
                         <MoreIcon className="svg-icon"/>
                     </button>
                     {
-                        openedMenu === i.id && <ActionsMenu className={"absolute top-full right-0 mt-2 w-[180px] z-[1] " + (isMenuOut ? 'animate-dropOut' : 'animate-drop')} ref={ref}/>
+                        // todo ActionsMenu вынести наружу, оно не должно быть в компоненте таблицы
+                        openedMenu === i.id && <ActionsMenu className={"absolute top-full right-0 mt-2 w-[180px] z-[1] " + (isMenuOut ? 'animate-dropOut' : 'animate-drop')} ref={ref} onAction={onAction}/>
                     }
                 </div>
             </Cell>

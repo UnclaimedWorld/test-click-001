@@ -2,7 +2,8 @@ import BaseComponentType from "../types/components"
 import { useState, createContext } from "react";
 
 interface AppFormType extends BaseComponentType {
-    rules?: FormModelType,
+    rules?: FormModelType
+    initialForm?: FormModelType
     onSubmit: (form: FormModelType) => void
 }
 
@@ -17,7 +18,7 @@ interface FormContextType {
 export const FormContext = createContext<FormContextType|null>(null);
 
 export default function AppForm(props: AppFormType) {
-    const [form, setForm] = useState<FormModelType>({});
+    const [form, setForm] = useState<FormModelType>((props.initialForm || {}));
     const [errors, setError] = useState<FormErrorsType>([]);
 
     const onInput = (name: string, value: string) => {
