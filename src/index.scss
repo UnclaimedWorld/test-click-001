@@ -28,7 +28,12 @@ html, body, #root {
     height: 100%;
 }
 
+body {
+    @apply bg-[rgb(242_242_247_/_0.93)];
+}
+
 *, *:before, *:after {
     box-sizing: border-box;
     outline: none;
+    -webkit-tap-highlight-color: transparent;
 }

@@ -1,30 +1,33 @@
 import { UsersContext } from "../../store/users.store";
 import BaseComponentType from "../../types/components";
-import AppTable from "../AppTable";
+import AppTable, { TableHeadType } from "../AppTable";
 import {useContext} from 'react';
 
-const tableHead = [
-    {
-      name: 'Имя',
-      key: 'name'
-    },
-    {
-      name: 'Фамилия',
-      key: 'surname'
-    },
-    {
-      name: 'Описание',
-      key: 'description'
-    },
+const tableHead: TableHeadType[] = [
+  {
+    name: 'Имя',
+    key: 'name',
+    size: 'medium'
+  },
+  {
+    name: 'Фамилия',
+    key: 'surname',
+    size: 'medium'
+  },
+  {
+    name: 'Описание',
+    key: 'description',
+    size: 'flex'
+  },
 ];
 
 interface UsersTableType extends BaseComponentType {
-    onAction: (action: string, id: number) => void
+  onAction: (action: string, id: number) => void
 }
 
 export default function UsersTable(props: UsersTableType) {
-    const usersContext = useContext(UsersContext);
-    const users = [...(usersContext?.users || [])];
+  const usersContext = useContext(UsersContext);
+  const users = [...(usersContext?.users || [])];
 
-    return <AppTable head={tableHead} data={users} onAction={props.onAction}/>
+  return <AppTable head={tableHead} data={users} onAction={props.onAction}/>
 }

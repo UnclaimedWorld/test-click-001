@@ -2,9 +2,14 @@ import BaseComponentType from "../types/components";
 import { ReactComponent as MoreIcon } from '../assets/icons/more.svg';
 import { useState, forwardRef } from "react";
 import useClickOutsideRef from "../helpers/clickOutside";
+import ToggleButton from "./ToggleButton";
+import ToggleMenu from "./partials/ToggleMenu";
 
-interface TableHeadType {
-    name: string, key: string
+type TableHeadSizesType = 'large' | 'medium' | 'small' | 'flex';
+export interface TableHeadType {
+    name: string
+    key: string
+    size?: TableHeadSizesType
 }
 
 interface AppTableType extends BaseComponentType {
@@ -13,79 +18,57 @@ interface AppTableType extends BaseComponentType {
     onAction: (action: string, id: number) => void
 }
 
-const Head = (props: BaseComponentType) => {
-    return <th className="pt-[13px] pb-[14px] px-7 bg-[#FAFCFE] text-[12px] leading-[14px] uppercase font-medium text-[#31507D] font-heading text-left rounded-tl-lg last:w-[10px]">{ props.children }</th>
-};
-const Cell = (props: {colSpan?: number} & BaseComponentType) => {
-    return <td className="pt-[31px] pb-[29px] px-7 border-t border-[#E3EBF4] text-[#1C1C1E]" colSpan={props.colSpan}>{ props.children }</td>
-};
+const tableHeadSizes = {
+    large: 'w-[400px]',
+    medium: 'w-[240px]',
+    small: 'w-[44px]',
+    flex: 'w-auto'
+}
+const Head = (props: { size?: TableHeadSizesType } & BaseComponentType) => {
+    let className = "pt-[13px] pb-[14px] px-7 bg-[#FAFCFE] text-[12px] leading-[14px] uppercase font-medium text-[#31507D] font-heading text-left rounded-tl-lg rounded-tr-lg ";
 
-const actions = [
-    {
-        name: 'Редактировать',
-        key: 'edit'
-    },
-    {
-        name: 'Удалить',
-        key: 'delete'
+    if(props.size) {
+        className += tableHeadSizes[props.size];
     }
-]
-const ActionsMenu = forwardRef((props: {onAction: (action: string) => void } & BaseComponentType, ref) => {
-    return <ul className={props.className + ` p-1 rounded-xl bg-white shadow-[0px_5px_15px_rgba(145,_161,_185,_0.15)]`} ref={ref}>
-        {
-            actions.map(i => {
-                const clickHandler: React.MouseEventHandler = () => {
-                    props.onAction(i.key);
-                }
-                return <li key={i.key} className="px-4 py-2 font-heading font-medium text-sm text-[#8294AF] rounded-xl hover:bg-[#F5F7F8] cursor-pointer" onClick={clickHandler}>{ i.name }</li>
-            })
-        }
-    </ul>
-});
+
+    return (
+        <th className={className}>
+            { props.children }
+        </th>
+    );
+};
+const Cell = (props: {colSpan?: number, noOverflow?: boolean} & BaseComponentType) => {
+    // let className = "w-0 min-w-full text-ellipsis ";
+    let className = "w-0 min-w-full text-ellipsis break-words hyphens-auto";
+    if(!props.noOverflow) {
+        // className += "overflow-hidden";
+    }
+    return (
+        <td className="pt-[31px] pb-[29px] px-7 border-t border-[#E3EBF4] text-[#1C1C1E] align-baseline" colSpan={props.colSpan}>
+            <div className={className}>{ props.children }</div>
+        </td>
+    );
+};
 
 export default function AppTable(props: AppTableType) {
     const [openedMenu, setOpenedMenu] = useState('');
-    const [isMenuOut, setIsMenuOut] = useState(false);
 
     const head = props.head.map(i => {
-        return <Head key={i.key}>{ i.name }</Head>
+        return <Head key={i.key} size={i.size}>{ i.name }</Head>
     });
-    head.push(<Head key="2">Действия</Head>);
-
-    const toggleMenu = (key?: string) => {
-        if(openedMenu && !key) {
-            setIsMenuOut(true);
-            setTimeout(() => {
-                setOpenedMenu('');
-                setIsMenuOut(false);
-            }, 250);
-        } else if(key) {
-            setOpenedMenu(key);
-        }
-    }
-
-    const ref = useClickOutsideRef(() => {
-        toggleMenu();
-    });
+    head.push(<Head key="2" size="small">Действия</Head>);
 
     let data = props.data.map(i => {
-        const onTogglerClick: React.MouseEventHandler = (e) => {
-            setTimeout(() => {
-                toggleMenu(i.id);
-            });
-        };
-
-        let className = "w-11 h-11 mx-auto rounded-xl border-2  text-[#91A1B9] p-0 flex items-center justify-center ";
-        if(openedMenu === i.id) {
-            className += "bg-[#E3EBF4] border-[#E3EBF4]";
-        } else {
-            className += "bg-white border-[#E5E5EA]";
-        }
-
         const onAction = (action: string) => {
             props.onAction(action, i.id);
-            toggleMenu();
         };
+        const setOpened = (isOpened: boolean) => {
+            if(!isOpened && i.id === openedMenu) {
+                setOpenedMenu('');
+            } else if(isOpened) {
+                setOpenedMenu(i.id);
+            }
+        }
 
         return <tr>
             { 
@@ -93,22 +76,14 @@ export default function AppTable(props: AppTableType) {
                     return <Cell key={k.key}>{i[k.key] || '-'}</Cell>
                 })
             }
-            <Cell>
-                <div className="relative">
-                    <button className={className} onClick={onTogglerClick}>
-                        <MoreIcon className="svg-icon"/>
-                    </button>
-                    {
-                        // todo ActionsMenu вынести наружу, оно не должно быть в компоненте таблицы
-                        openedMenu === i.id && <ActionsMenu className={"absolute top-full right-0 mt-2 w-[180px] z-[1] " + (isMenuOut ? 'animate-dropOut' : 'animate-drop')} ref={ref} onAction={onAction}/>
-                    }
-                </div>
+            <Cell noOverflow>
+                <ToggleMenu opened={openedMenu === i.id} onAction={onAction} setOpened={setOpened}/>
             </Cell>
         </tr>
     });
     if(!data.length) {
         data = [<tr key="empty">
-            <Cell colSpan={4}>Пока ничего нет(</Cell>
+            <Cell colSpan={4}>Пока никого нет(</Cell>
         </tr>];
     }
 
