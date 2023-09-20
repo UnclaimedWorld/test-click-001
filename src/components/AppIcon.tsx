@@ -13,7 +13,8 @@ export default function AppIcon(
 
   useEffect(() => {
     getIcon();
-  });
+  }, [props.icon]);
+  
   if (!icon) {
     return (
       <div
