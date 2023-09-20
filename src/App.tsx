@@ -15,10 +15,12 @@ class UserDTO {
   name: string;
   surname: string;
   description: string;
+  id: number;
   constructor(user: any) {
     this.name = user.name;
     this.surname = user.surname;
     this.description = user.description;
+    this.id = user.id;
   }
 }
 

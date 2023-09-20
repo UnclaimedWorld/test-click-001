@@ -1,9 +1,13 @@
+let id = 0;
 // Имитация апишки
 const imitator: Record<string, (data?: any) => { success: true, data: any }> = {
     'post/api/create'(data: { name: string, surname: string, description?: string }) {
         return {
             success: true,
-            data
+            data: {
+                ...data,
+                id: ++id
+            }
         };
     }
 };
