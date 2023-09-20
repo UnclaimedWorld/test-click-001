@@ -17,10 +17,10 @@ export default function useLoaderComponent() {
       } catch (e) {
         console.log(e);
       } finally {
-        setLoading(false);
         if (finallyCallback) {
           finallyCallback();
         }
+        setLoading(false);
       }
     },
     LoaderComponent: (props: BaseComponentType) => (

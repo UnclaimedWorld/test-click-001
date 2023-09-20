@@ -12,7 +12,7 @@ const formRules = {
   surname: "required",
 };
 interface RegisterFormType extends BaseComponentType {
-  user?: number;
+  user?: number|null;
   onSubmit?: () => void;
 }
 
@@ -37,7 +37,7 @@ export default function RegisterForm(props: RegisterFormType) {
   const buttonName = props.user ? "Редактировать" : "Добавить";
 
   const onSubmit = async (form: FormModelType) => {
-    submitCallback(
+    await submitCallback(
       async () => {
         let url = "/create";
         let method = api.post.bind(api);

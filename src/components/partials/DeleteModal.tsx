@@ -8,7 +8,8 @@ import api from "../../helpers/api";
 import useLoaderComponent from "../../helpers/useLoaderComponent";
 
 interface DeleteModalType extends BaseComponentType {
-  user: number;
+  user: number|null;
+  visible: boolean;
   onClose: () => void;
 }
 
@@ -18,23 +19,25 @@ export default function DeleteModal(props: DeleteModalType) {
   const { submitCallback, LoaderComponent } = useLoaderComponent();
 
   let name = "";
-  const user = usersContext && usersContext.findUser(props.user);
+  const user = props.user && usersContext && usersContext.findUser(props.user);
   if (user) {
     name = user.name;
   }
 
   const onSubmit = () => {
     submitCallback(async () => {
-      const { success } = await api.delete("/delete/" + props.user);
-      if (success) {
-        usersContext?.removeUser(props.user);
+      if(props.user) {
+        const { success } = await api.delete("/delete/" + props.user);
+        if (success) {
+          usersContext?.removeUser(props.user);
+        }
+        props.onClose();
       }
-      props.onClose();
     });
   };
 
   return (
-    <AppModal name="Редактировать" onCloseModal={props.onClose}>
+    <AppModal visible={props.visible} name="Редактировать" onCloseModal={props.onClose}>
       <AppForm onSubmit={onSubmit}>
         <p className="mb-6 leading-5 font-medium text-center">
           Вы действительно хотите безвозвратно удалить пользователя {name}?{" "}
