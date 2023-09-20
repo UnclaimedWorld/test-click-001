@@ -4,7 +4,8 @@ import BaseComponentType from "../../types/components";
 import AppButton from "../AppButton";
 import AppForm, { FormModelType } from "../AppForm";
 import AppFormField from "../AppFormField";
-import {useContext} from 'react';
+import { useContext } from 'react';
+import useLoaderComponent from "../../helpers/useLoaderComponent";
 
 const formRules = {
     name: 'required',
@@ -17,6 +18,8 @@ interface RegisterFormType extends BaseComponentType {
 
 export default function RegisterForm(props: RegisterFormType) {
     const usersContext = useContext(UsersContext);
+
+    const { submitCallback, LoaderComponent } = useLoaderComponent();
 
     let initialForm: FormModelType = {};
     if(props.user && usersContext) {
@@ -34,23 +37,20 @@ export default function RegisterForm(props: RegisterFormType) {
     const buttonName = props.user ? 'Редактировать' : 'Добавить';
 
     const onSubmit = async (form: FormModelType) => {
-        let url = '/create';
-        let method = api.post.bind(api);
-        let finish = usersContext?.addUser;
-        if(props.user) {
-            url = '/update/' + props.user;
-            method = api.put.bind(api);
-            finish = usersContext?.editUser;
-        } 
-        try {
+        submitCallback(async () => {
+            let url = '/create';
+            let method = api.post.bind(api);
+            let finish = usersContext?.addUser;
+            if(props.user) {
+                url = '/update/' + props.user;
+                method = api.put.bind(api);
+                finish = usersContext?.editUser;
+            } 
             const {data} = await method(url, form);
             finish?.(data);
-        } catch(e) {
-            // Можно показывать сообщение об ошибке, если пользователь не найден
-            console.log(e);
-        } finally {
+        }, () => {
             props.onSubmit?.();
-        }
+        });
     }
 
     return (
@@ -58,7 +58,9 @@ export default function RegisterForm(props: RegisterFormType) {
             <AppFormField autofocus type="input" label="Имя" placeholder="Введите имя" name="name"/>
             <AppFormField type="input" label="Фамилия" placeholder="Введите фамилию" name="surname"/>
             <AppFormField type="input" label="Описание" placeholder="Краткое описание" name="description"/>
-            <AppButton type="submit">{ buttonName }</AppButton>
+            <LoaderComponent>
+                <AppButton type="submit">{ buttonName }</AppButton>
+            </LoaderComponent>
         </AppForm>
     )
 }

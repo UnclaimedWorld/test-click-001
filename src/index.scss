@@ -13,6 +13,9 @@
 }
 $comp: 'path', 'rect', 'circle';
 @layer components {
+    .svg-icon svg {
+        @apply w-full h-full block;
+    }
     @each $i in $comp {
         .svg-icon #{$i}:not([stroke]):not([fill="none"]),
         .svg-icon #{$i}[fill]:not([fill="none"]) {
