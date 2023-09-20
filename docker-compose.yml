@@ -1,0 +1,10 @@
+version: "3"
+services:
+  front:
+    build: .
+    ports:
+      - "5173:5173"
+    volumes:
+      - ${PWD}:/app # Под виндой ${PWD} не работает
+      - /app/node_modules
+    tty: true
