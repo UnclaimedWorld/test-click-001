@@ -2,22 +2,22 @@ import { useContext } from "react";
 import { FormContext } from "../components/AppForm";
 
 export const useFormContext = (name: string) => {
-    const context = useContext(FormContext);
+  const context = useContext(FormContext);
 
-    const value = context ? context.form[name] || '' : '';
-    const isError = context?.errors.includes(name) || false;
-    const onInput = (e: React.FormEvent<HTMLInputElement>) => {
-        if(context) {
-            // Это всё ради типизации
-            if('value' in e.target) {
-                context.onInput(name, String(e.target.value));
-            }
-        }
+  const value = context ? context.form[name] || "" : "";
+  const isError = context?.errors.includes(name) || false;
+  const onInput = (e: React.FormEvent<HTMLInputElement>) => {
+    if (context) {
+      // Это всё ради типизации
+      if ("value" in e.target) {
+        context.onInput(name, String(e.target.value));
+      }
     }
+  };
 
-    return {
-        value,
-        isError,
-        onInput,
-    }
-}
+  return {
+    value,
+    isError,
+    onInput,
+  };
+};

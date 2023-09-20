@@ -1,4 +1,4 @@
 export default interface BaseComponentType {
-    children?: React.ReactNode,
-    className?: string
+  children?: React.ReactNode;
+  className?: string;
 }
