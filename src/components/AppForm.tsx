@@ -4,7 +4,7 @@ import { useState, createContext } from "react";
 interface AppFormType extends BaseComponentType {
     rules?: FormModelType
     initialForm?: FormModelType
-    onSubmit: (form: FormModelType) => void
+    onSubmit?: (form: FormModelType) => void
 }
 
 export type FormModelType = Record<string, string>;
@@ -46,11 +46,11 @@ export default function AppForm(props: AppFormType) {
             });
     
             if(!isPrevented) {
-                await props.onSubmit(form);
+                await props.onSubmit?.(form);
                 setForm({});
             }
         } else {
-            props.onSubmit(form);
+            props.onSubmit?.(form);
         }
     }
 

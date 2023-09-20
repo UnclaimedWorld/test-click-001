@@ -1,9 +1,10 @@
 import AppHeading from './components/AppHeading';
-import AppModal from './components/AppModal';
 import RegisterForm from './components/partials/RegisterForm';
 import useUsersStore, { UsersContext } from './store/users.store';
 import UsersTable from './components/partials/UsersTable';
 import {useState} from 'react';
+import EditModal from './components/partials/EditModal';
+import DeleteModal from './components/partials/DeleteModal';
 
 function App() {
   const usersStore = useUsersStore();
@@ -14,6 +15,20 @@ function App() {
   const onCloseModal = () => {
     setEditUser(null);
   }
+  const onAction = (action: string, user: number) => {
+    setAction(action);
+    setEditUser(user);
+  }
+
+  let modalSection = null;
+  if(editUser) {
+    const modalProps = {
+      user: editUser,
+      onClose: onCloseModal
+    }
+    modalSection = action === 'edit' ? <EditModal {...modalProps}/> : <DeleteModal {...modalProps}/>;
+  }
+
   return (
     <UsersContext.Provider value={usersStore}>
       <main className="bg-[image:linear-gradient(45deg,_rgb(242_242_247_/_0.93),_rgb(242_242_247_/_0.93)),_url('./assets/images/pattern.jpg')] text-[#0E3263] min-h-screen pt-[50px]">
@@ -24,16 +39,11 @@ function App() {
           </div>
           <div className="ml-9 flex-grow">
             <AppHeading>Зарегистрированные пользователи</AppHeading>
-            <UsersTable onEdit={setEditUser} onDelete={setEditUser}/>
+            <UsersTable onAction={onAction}/>
           </div>
         </div>
       </main>
-      { !!editUser && (
-        <AppModal name="Редактировать" onCloseModal={onCloseModal}>
-          <RegisterForm user={editUser} onSubmit={onCloseModal}/>
-        </AppModal>
-      ) }
-      
+      { modalSection }
     </UsersContext.Provider>
   )
 }

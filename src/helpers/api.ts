@@ -18,19 +18,29 @@ const imitator: Record<string, (data?: any) => { success: true, data: any }> = {
                 id: +data.id
             }
         };
-    }
+    },
+    'delete/api/delete/:id'(data: { id: number }) {
+        // Для целостности интерфейса
+        return {
+            success: true,
+            data: null
+        };
+    },
 };
 
 class Api {
-    request(params: { method: 'put' | 'post' | 'get', url: string, data?: Record<string, any> }) {
+    request(params: { method: 'put' | 'post' | 'get' | 'delete', url: string, data?: Record<string, any> }) {
         const DELAY = 200;
         let url = params.method + '/api' + params.url;
 
         return new Promise<any>((resolve, reject) => {
-            if(params.method === 'put') {
+            // Все эти сложности нужны только для имитации работы бекенда, в реальном проекте бекенд обычно поддерживает динамические ссылки
+            if(params.method === 'put' || params.method === 'delete') {
                 const id = url.slice(url.lastIndexOf('/') + 1);
                 url = url.slice(0, url.lastIndexOf('/')) + '/:id';
-                params.data!.id = id;
+                if(params.data) {
+                    params.data.id = id;
+                }
             }
 
             if(url in imitator) {
@@ -65,6 +75,12 @@ class Api {
             url,
             method: 'put',
             data
+        });
+    }
+    delete(url: string) {
+        return this.request({
+            url,
+            method: 'delete',
         });
     }
 }

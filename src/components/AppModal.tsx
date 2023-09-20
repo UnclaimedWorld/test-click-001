@@ -1,6 +1,6 @@
 import { ReactComponent as CloseIcon } from '../assets/icons/close.svg';
 import BaseComponentType from '../types/components';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 interface AppModalType extends BaseComponentType {
     name: string
@@ -20,6 +20,18 @@ export default function AppModal(props: AppModalType) {
             onCloseModal();
         }
     }
+
+    useEffect(() => {
+        const close = (e: KeyboardEvent) => {
+            if(e.code === 'Escape') {
+                onCloseModal();
+            }
+        };
+        document.addEventListener('keydown', close);
+        return () => {
+            document.removeEventListener('keydown', close);
+        }
+    });
 
     return <article className={modalClassName} onClick={onClickModal} ref={ref}>
         <div className="bg-white shadow-[0px_5px_15px_rgba(145,_161,_185,_0.15)] rounded-xl m-auto max-w-[562px] w-full relative animate-drop">

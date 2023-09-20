@@ -19,21 +19,12 @@ const tableHead = [
 ];
 
 interface UsersTableType extends BaseComponentType {
-    onEdit: (id: number) => void
-    onDelete: (id: number) => void
+    onAction: (action: string, id: number) => void
 }
 
 export default function UsersTable(props: UsersTableType) {
     const usersContext = useContext(UsersContext);
     const users = [...(usersContext?.users || [])];
 
-    const onAction = (action: string, id: number) => {
-        if(action === 'edit') {
-            props.onEdit(id);
-        } else if(action === 'delete') {
-            props.onDelete(id);
-        }
-    }
-
-    return <AppTable head={tableHead} data={users} onAction={onAction}/>
+    return <AppTable head={tableHead} data={users} onAction={props.onAction}/>
 }

@@ -16,6 +16,8 @@ export interface UsersStore {
     users: Readonly<UserDTO[]>,
     addUser(user: UserDTO): void,
     editUser(user: UserDTO): void,
+    findUser(id: number): UserDTO | null
+    removeUser(id: number): boolean
 }
 
 export const UsersContext = createContext<UsersStore | null>(null);
@@ -42,6 +44,20 @@ export default function useUsersStore(): UsersStore {
                 });
             } else {
                 throw new Error('Не удалось найти пользователя');
+            }
+        },
+        findUser(id) {
+            return users.find(u => u.id == id) || null;
+        },
+        removeUser(id) {
+            const newUsers = [...users];
+            const idx = newUsers.findIndex(u => u.id == id);
+            if(idx > -1) {
+                newUsers.splice(idx, 1);
+                setUsers(newUsers);
+                return true;
+            } else {
+                return false;
             }
         }
     };
