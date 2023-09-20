@@ -40,6 +40,10 @@ export default {
         opacityReverse: {
           '100%': { opacity: '0' },
           '0%': { opacity: '1' },
+        },
+        errorMessageHeight: {
+          '0%': { opacity: '0', maxHeight: '0px', overflow: 'hidden' },
+          '100%': { opacity: '1', maxHeight: '48px', overflow: 'hidden' },
         }
       }
     },
