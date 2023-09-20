@@ -8,7 +8,10 @@ export const useFormContext = (name: string) => {
     const isError = context?.errors.includes(name) || false;
     const onInput = (e: React.FormEvent<HTMLInputElement>) => {
         if(context) {
-            context.onInput(name, e.target.value);
+            // Это всё ради типизации
+            if('value' in e.target) {
+                context.onInput(name, String(e.target.value));
+            }
         }
     }
 
