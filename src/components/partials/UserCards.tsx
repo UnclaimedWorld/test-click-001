@@ -67,7 +67,7 @@ export default function UsersCards(props: UsersTableType) {
                   <p className="text-[15px] font-medium leading-5 mb-4">
                     {field.name}
                   </p>
-                  <p className="text-[30px] font-bold leading-[1] mb-4">
+                  <p className="text-[20px] font-bold leading-[1] mb-4">
                     {user[field.key] || "-"}
                   </p>
                 </div>

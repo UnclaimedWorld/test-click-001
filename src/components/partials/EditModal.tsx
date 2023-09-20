@@ -11,7 +11,7 @@ interface EditModalType extends BaseComponentType {
 export default function EditModal(props: EditModalType) {
   return (
     <AppModal visible={props.visible} name="Редактировать" onCloseModal={props.onClose}>
-      <RegisterForm user={props.user} onSubmit={props.onClose} />
+      <RegisterForm className="min-h-full" user={props.user} onSubmit={props.onClose} />
     </AppModal>
   );
 }

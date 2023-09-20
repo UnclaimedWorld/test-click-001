@@ -2,7 +2,7 @@ import BaseComponentType from "../types/components";
 
 export default function AppHeading(props: BaseComponentType) {
   return (
-    <p className="mb-9 text-[22px] md:text-[28px] font-bold leading-[28px]">
+    <p className="mb-9 text-[24px] md:text-[28px] font-bold leading-[28px]">
       {props.children}
     </p>
   );

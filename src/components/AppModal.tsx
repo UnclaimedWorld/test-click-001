@@ -14,7 +14,7 @@ function ModalLayout(props: AppModalType) {
   let modalClassName =
     "flex fixed z-10 top-0 left-0 w-full h-full bg-[rgba(50,_71,_101,_0.47)] overflow-auto md:py-9 md:px-6 ";
   let modalWindowClassName =
-    "bg-white shadow-[0px_5px_15px_rgba(145,_161,_185,_0.15)] m-auto relative w-full min-h-screen md:max-w-[562px] md:rounded-xl md:min-h-0 ";
+    "flex flex-col bg-white shadow-[0px_5px_15px_rgba(145,_161,_185,_0.15)] m-auto relative w-full min-h-screen md:max-w-[562px] md:rounded-xl md:min-h-0 ";
 
   if (!props.visible) {
     modalClassName += "animate-opacityOut ";
@@ -51,7 +51,7 @@ function ModalLayout(props: AppModalType) {
   return (
     <article className={modalClassName} onClick={onClickModal} ref={ref}>
       <div className={modalWindowClassName}>
-        <h3 className="pt-6 px-9 pb-5 border-b border-[#E3EBF4] text-[18px] leading-7 font-bold text-[#31507D]">
+        <h3 className="flex-shrink-0 pt-6 px-9 pb-5 border-b border-[#E3EBF4] text-[18px] leading-7 font-bold text-[#31507D]">
           {props.name}
         </h3>
         <button
@@ -61,7 +61,7 @@ function ModalLayout(props: AppModalType) {
           <span className="absolute top-0 left-0 right-0 bottom-0 block -m-3"></span>
           <AppIcon icon="close" size={20} />
         </button>
-        <div className="pt-6 px-9 pb-9">{props.children}</div>
+        <div className="pt-6 px-9 pb-9 flex-grow max-md:h-1">{props.children}</div>
       </div>
     </article>
   );

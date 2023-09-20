@@ -24,7 +24,7 @@ export default function useLoaderComponent() {
       }
     },
     LoaderComponent: (props: BaseComponentType) => (
-      <AppLoader loading={loading}>{props.children}</AppLoader>
+      <AppLoader {...props} loading={loading}>{props.children}</AppLoader>
     ),
   };
 }

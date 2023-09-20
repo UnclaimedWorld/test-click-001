@@ -11,7 +11,7 @@ interface AppFormFieldType extends BaseComponentType, AppInputType {
 
 export default function AppFormField(props: AppFormFieldType) {
   return (
-    <label className="block mb-6">
+    <label className={"block mb-6 " + props.className}>
       <AppLabel>{props.label}</AppLabel>
       {props.type == "input" ? (
         <AppInput

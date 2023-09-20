@@ -38,12 +38,12 @@ export default function DeleteModal(props: DeleteModalType) {
 
   return (
     <AppModal visible={props.visible} name="Редактировать" onCloseModal={props.onClose}>
-      <AppForm onSubmit={onSubmit}>
+      <AppForm className="min-h-full flex flex-col" onSubmit={onSubmit}>
         <p className="mb-6 leading-5 font-medium text-center">
           Вы действительно хотите безвозвратно удалить пользователя {name}?{" "}
           <br /> Восстановить его не получится
         </p>
-        <LoaderComponent>
+        <LoaderComponent className="mt-auto">
           <AppButton theme="danger" type="submit">
             Удалить
           </AppButton>

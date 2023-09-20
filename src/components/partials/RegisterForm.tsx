@@ -58,7 +58,7 @@ export default function RegisterForm(props: RegisterFormType) {
 
   return (
     <AppForm
-      className={props.className}
+      className={"flex flex-col " + props.className}
       initialForm={initialForm}
       rules={formRules}
       onSubmit={onSubmit}
@@ -77,12 +77,13 @@ export default function RegisterForm(props: RegisterFormType) {
         name="surname"
       />
       <AppFormField
+        className="mb-11"
         type="input"
         label="Описание"
         placeholder="Краткое описание"
         name="description"
       />
-      <LoaderComponent>
+      <LoaderComponent className="mt-auto">
         <AppButton type="submit">{buttonName}</AppButton>
       </LoaderComponent>
     </AppForm>
